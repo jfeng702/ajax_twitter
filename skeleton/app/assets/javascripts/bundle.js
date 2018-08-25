@@ -94,12 +94,20 @@
 /***/ (function(module, exports) {
 
 const APIUtil = {
-  followUser: id => {
-    
-  },
-  unfollowUser: id => {
-
-  }
+  followUser: id => (
+    $.ajax({
+      method: 'POST',
+      url: `/users/${id}/follow`,
+      dataType: 'json'
+    })
+  ),
+  unfollowUser: id => (
+    $.ajax({
+      method: 'DELETE',
+      url: `/users/${id}/follow`,
+      dataType: 'json'
+    })
+  )
 };
 
 module.exports = APIUtil;
@@ -115,6 +123,7 @@ module.exports = APIUtil;
 /***/ (function(module, exports, __webpack_require__) {
 
 const APIUtil = __webpack_require__(/*! ./api_util */ "./frontend/api_util.js");
+
 class FollowToggle {
   constructor(el) {
     this.$el = $(el);
@@ -151,21 +160,15 @@ class FollowToggle {
     if (this.followState === 'followed') {
       this.followState = 'unfollowing';
       this.render();
-      console.log(this.userId);
       APIUtil.unfollowUser(this.userId)
         .then(() => {
-          console.log(this);
           followToggle.followState = 'unfollowed';
           followToggle.render();
         });
     } else if (this.followState === 'unfollowed'){
       this.followState = 'following';
       this.render();
-      $.ajax({
-        method: 'POST',
-        url: `/users/${this.userId}/follow`,
-        dataType: 'json'
-      })
+      APIUtil.followUser(this.userId)
       .then(() => {
         followToggle.followState = 'followed';
         followToggle.render();
