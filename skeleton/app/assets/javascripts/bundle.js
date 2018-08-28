@@ -116,6 +116,14 @@ const APIUtil = {
       data: { query },
       success
     })
+  ),
+  createTweet: data => (
+    $.ajax({
+      method: 'POST',
+      url: '/tweets',
+      data: {data},
+      dataType: 'json'
+    })
   )
 };
 
@@ -192,6 +200,48 @@ module.exports = FollowToggle;
 
 /***/ }),
 
+/***/ "./frontend/tweet_compose.js":
+/*!***********************************!*\
+  !*** ./frontend/tweet_compose.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const APIUtil = __webpack_require__(/*! ./api_util */ "./frontend/api_util.js");
+
+class TweetCompose {
+  constructor(el) {
+    this.$el = $(el);
+    this.$form = this.$el.find('form');
+    this.$input = this.$el.find('textarea[name=tweet\\[content\\]]');
+    this.$input.on('input', this.handleInput.bind(this));
+
+    this.$el.on('submit', this.submit.bind(this));
+  }
+
+  handleInput(e) {
+
+  }
+
+  handleSuccess(tweet) {
+
+  }
+
+  submit(e) {
+    e.preventDefault();
+    let val = this.$el.serializeJSON();
+    this.$el.find(':input').prop('disabled', true);
+    APIUtil.createTweet(val)
+      .then((tweet) => this.handleSuccess(tweet));
+
+  }
+}
+
+module.exports = TweetCompose;
+
+
+/***/ }),
+
 /***/ "./frontend/twitter.js":
 /*!*****************************!*\
   !*** ./frontend/twitter.js ***!
@@ -201,7 +251,7 @@ module.exports = FollowToggle;
 
 const FollowToggle = __webpack_require__(/*! ./follow_toggle */ "./frontend/follow_toggle.js");
 const UsersSearch = __webpack_require__(/*! ./users_search */ "./frontend/users_search.js");
-
+const TweetCompose = __webpack_require__(/*! ./tweet_compose */ "./frontend/tweet_compose.js");
 
 $(function () {
   let $buttons = $('button.follow-toggle');
@@ -211,7 +261,12 @@ $(function () {
 
   let $searches = $('.users-search');
   $searches.each( (idx, search) => {
+    console.log(search);
     new UsersSearch(search);
+  });
+
+  $('.tweet-compose').each( (idx, form) => {
+    new TweetCompose(form);
   });
 });
 
