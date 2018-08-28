@@ -18,7 +18,8 @@ const APIUtil = {
       method: 'GET',
       url: `/users/search`,
       dataType: 'json',
-      data: { query }
+      data: { query },
+      success
     })
   )
 };

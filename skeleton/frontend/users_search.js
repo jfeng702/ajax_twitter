@@ -10,8 +10,10 @@ class UsersSearch {
   }
 
   handleInput(e) {
-    APIUtil.searchUsers(this.$input.val())
-      .then((results) => this.renderResults(results));
+    const usersSearch = this;
+    APIUtil.searchUsers(this.$input.val(), function(results) {
+      usersSearch.renderResults(results);
+    });
   }
 
   renderResults(users) {

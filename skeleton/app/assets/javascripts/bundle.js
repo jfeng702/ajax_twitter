@@ -113,7 +113,8 @@ const APIUtil = {
       method: 'GET',
       url: `/users/search`,
       dataType: 'json',
-      data: { query }
+      data: { query },
+      success
     })
   )
 };
@@ -236,8 +237,10 @@ class UsersSearch {
   }
 
   handleInput(e) {
-    APIUtil.searchUsers(this.$input.val())
-      .then((results) => this.renderResults(results));
+    const usersSearch = this;
+    APIUtil.searchUsers(this.$input.val(), function(results) {
+      usersSearch.renderResults(results);
+    });
   }
 
   renderResults(users) {
