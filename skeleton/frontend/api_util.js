@@ -13,12 +13,12 @@ const APIUtil = {
       dataType: 'json'
     })
   ),
-  searchUsers: (queryVal, success) => (
+  searchUsers: (query, success) => (
     $.ajax({
       method: 'GET',
       url: `/users/search`,
       dataType: 'json',
-      data: queryVal
+      data: { query }
     })
   )
 };

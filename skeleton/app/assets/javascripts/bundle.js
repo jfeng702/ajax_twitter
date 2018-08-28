@@ -108,12 +108,12 @@ const APIUtil = {
       dataType: 'json'
     })
   ),
-  searchUsers: (queryVal, success) => (
+  searchUsers: (query, success) => (
     $.ajax({
       method: 'GET',
       url: `/users/search`,
       dataType: 'json',
-      data: queryVal
+      data: { query }
     })
   )
 };
@@ -133,10 +133,11 @@ module.exports = APIUtil;
 const APIUtil = __webpack_require__(/*! ./api_util */ "./frontend/api_util.js");
 
 class FollowToggle {
-  constructor(el) {
+  constructor(el, options) {
     this.$el = $(el);
-    this.userId = this.$el.data('user-id');
-    this.followState = this.$el.data('initial-follow-state');
+    this.userId = this.$el.data('user-id') || options.userId;
+    this.followState = this.$el.data('initial-follow-state') ||
+      options.followState;
     this.render();
     this.$el.on('click', this.handleClick.bind(this));
   }
@@ -207,7 +208,7 @@ $(function () {
     new FollowToggle(btn);
   });
 
-  let $searches = $('nav.users-search');
+  let $searches = $('.users-search');
   $searches.each( (idx, search) => {
     new UsersSearch(search);
   });
@@ -221,25 +222,48 @@ $(function () {
   !*** ./frontend/users_search.js ***!
   \**********************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+const APIUtil = __webpack_require__ (/*! ./api_util */ "./frontend/api_util.js");
+const FollowToggle = __webpack_require__(/*! ./follow_toggle */ "./frontend/follow_toggle.js");
 
 class UsersSearch {
   constructor(el) {
     this.$el = $(el);
     this.$input = this.$el.find('input[name=username]');
     this.$ul = this.$el.find('ul.users');
-    this.render();
-    this.$el.on('click', this.handleClick.bind(this));
+    this.$input.on('input', this.handleInput.bind(this));
   }
 
-  handleClick(e) {
-
+  handleInput(e) {
+    APIUtil.searchUsers(this.$input.val())
+      .then((results) => this.renderResults(results));
   }
 
-  render() {
+  renderResults(users) {
+    this.$ul.empty();
 
+    users.forEach(result => {
+      const user = result;
+      console.log(user);
+
+      let $a = $('<a></a>');
+      $a.text(`@${user.username}`);
+      $a.attr('href', `/users/${user.id}`);
+
+      let $li = $('<li></li>').append($a);
+      let $followToggle = $('<button></button>');
+      new FollowToggle($followToggle, {
+        userId: user.id,
+        followState: user.followed ? 'followed' : 'unfollowed'
+      });
+      this.$ul.append($li);
+      this.$ul.append($followToggle);
+    });
   }
 }
+
+module.exports = UsersSearch;
 
 
 /***/ })

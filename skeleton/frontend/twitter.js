@@ -8,7 +8,7 @@ $(function () {
     new FollowToggle(btn);
   });
 
-  let $searches = $('nav.users-search');
+  let $searches = $('.users-search');
   $searches.each( (idx, search) => {
     new UsersSearch(search);
   });
