@@ -5,13 +5,45 @@ header {
 }
 
 .main-nav {
+  display: flex;
 
+  h1 {
+    padding: 20px;
+  }
+
+  .logo {
+    position: relative;
+  }
+
+  tiny {
+    // -webkit-transform: rotate(-90deg);
+    position: absolute;
+    top: 10px;
+    left: -10px;
+    background: pink;
+    padding: 0 5px;
+    transform: rotate(-40deg);
+    color: red;
+  }
 }
 
 .links {
   display: flex;
-  justify-content: flex-end;
+  // justify-content: flex-end;
+  // height: 100%;
+
   li {
-    padding: 20px;
+    // padding: 20px;
+    display: flex;
+    // align-items: center;
+    form {
+      // height: 100%;
+    }
+    a, input[type='submit']{
+      // height: calc(100% - 40px);
+      padding: 20px;
+      // color: rgb(101, 119, 134);
+      // background-color: white;
+    }
   }
 }
