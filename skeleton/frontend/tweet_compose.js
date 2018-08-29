@@ -14,17 +14,28 @@ class TweetCompose {
 
   }
 
-  handleSuccess(tweet) {
+  handleSuccess(data) {
+    console.log(data);
+    const $tweetsUl = $(this.$el.data('tweets-ul'));
+    const $li = $('<li></li>');
+    $li.text = data;
+    $tweetsUl.append($li);
+    this.clearInput();
+  }
+
+  clearInput() {
+    this.$input.val('');
+    this.$el.find(':input').prop('disabled', false);
 
   }
 
   submit(e) {
     e.preventDefault();
     let val = this.$el.serializeJSON();
+    console.log(val);
     this.$el.find(':input').prop('disabled', true);
     APIUtil.createTweet(val)
-      .then((tweet) => this.handleSuccess(tweet));
-
+      .then((data) => this.handleSuccess(data));
   }
 }
 
