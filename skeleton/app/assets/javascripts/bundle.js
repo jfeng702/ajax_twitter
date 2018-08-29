@@ -236,7 +236,7 @@ class TweetCompose {
   clearInput() {
     this.$input.val('');
     this.$el.find(':input').prop('disabled', false);
-
+    this.$el.find('.chars-left').empty();
   }
 
   submit(e) {

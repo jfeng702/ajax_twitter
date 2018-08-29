@@ -1,14 +1,16 @@
 <h2>New Tweet!</h2>
-<form action="/tweets" method="POST" data-tweets-ul="#feed" class="tweet-compose">
+<form action="/tweets" method="POST" data-tweets-ul="#feed" class="tweet-compose simple-form">
   <input
       type="hidden"
       name="authenticity_token"
       value="<%= form_authenticity_token %>">
 
-  <label>
+  <label for="tweet-textarea">
     Content
-    <textarea name="tweet[content]"></textarea>
   </label>
+  <textarea
+    name="tweet[content]"
+    id="tweet-textarea" placeholder="yo hit me with those dimes"></textarea>
   <br>
 
   <label>
