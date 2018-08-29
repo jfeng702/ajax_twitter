@@ -224,7 +224,6 @@ class TweetCompose {
   }
 
   handleSuccess(data) {
-    console.log(data);
     const $tweetsUl = $(this.$el.data('tweets-ul'));
     const $li = $('<li></li>');
     $li.text = data;
