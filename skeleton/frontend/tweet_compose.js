@@ -17,7 +17,7 @@ class TweetCompose {
   handleSuccess(data) {
     const $tweetsUl = $(this.$el.data('tweets-ul'));
     const $li = $('<li></li>');
-    $li.text = data;
+    $li.text = JSON.stringify(data);
     $tweetsUl.append($li);
     this.clearInput();
   }
@@ -31,7 +31,6 @@ class TweetCompose {
   submit(e) {
     e.preventDefault();
     let val = this.$el.serializeJSON();
-    console.log(val);
     this.$el.find(':input').prop('disabled', true);
     APIUtil.createTweet(val)
       .then((data) => this.handleSuccess(data));

@@ -26,7 +26,7 @@ const APIUtil = {
     $.ajax({
       method: 'POST',
       url: '/tweets',
-      data: {data},
+      data: data,
       dataType: 'json'
     })
   )
