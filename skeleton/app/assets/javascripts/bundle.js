@@ -220,7 +220,9 @@ class TweetCompose {
   }
 
   handleInput(e) {
-
+    const $charsLeft = this.$el.find('.chars-left');
+    let length = e.target.value.length;
+    $charsLeft.html(`${140 - length} characters left`);
   }
 
   handleSuccess(data) {
