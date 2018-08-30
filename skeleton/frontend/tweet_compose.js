@@ -8,7 +8,13 @@ class TweetCompose {
     this.$input.on('input', this.handleInput.bind(this));
 
     this.$el.on('submit', this.submit.bind(this));
-    console.log(this.$form);
+    this.$mentionedUsersDiv = this.$el.find('.mentioned-users');
+    this.$el.find('.add-mentioned-user').on('click', this.addMentionedUser.bind(this));
+  }
+
+  addMentionedUser() {
+    event.preventDefault();
+    this.$mentionedUsersDiv.append(this.newUserSelect());
   }
 
   handleInput(e) {
@@ -40,10 +46,21 @@ class TweetCompose {
   }
 
   newUserSelect() {
-    const $select = $('<select></select');
+    const userOptions = window.users
+      .map(user =>
+        `<option value='${user.id}'>${user.username}</option>`)
+      .join('');
 
+    const html = `
+      <div>
+        <select name='tweet[mentioned_user_ids][]'>
+          ${userOptions}
+        </select>
 
-    this.$form.append($select);
+        <button class='remove-mentioned-user'>Remove</button>
+      </div>`;
+
+    return $(html);
   }
 }
 

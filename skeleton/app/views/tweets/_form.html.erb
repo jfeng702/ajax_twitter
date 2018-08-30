@@ -11,19 +11,15 @@
   <textarea
     name="tweet[content]"
     id="tweet-textarea" placeholder="yo hit me with those dimes"></textarea>
-  <br>
-
-  <label>
-    Mention
-    <select name="tweet[mentioned_user_ids][]">
-      <option></option>
-      <% User.all.each do |user| %>
-        <option value="<%= user.id %>"><%= user.username %></option>
-      <% end %>
-    </select>
-  </label>
   <strong class="chars-left"></strong>
-  <br>
 
-  <input type="Submit" value="Post Tweet!">
+  <ul class="mentioned-users"></ul>
+  <ul class="tweet-actions">
+    <li>
+      <button class="add-mentioned-user">Add Mention</button>
+    </li>
+    <li>
+      <input type="Submit" value="Post Tweet!">
+    </li>
+  </ul>
 </form>
