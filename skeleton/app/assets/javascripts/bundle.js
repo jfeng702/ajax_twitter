@@ -219,6 +219,8 @@ class TweetCompose {
     this.$el.on('submit', this.submit.bind(this));
     this.$mentionedUsersDiv = this.$el.find('.mentioned-users');
     this.$el.find('.add-mentioned-user').on('click', this.addMentionedUser.bind(this));
+
+    this.$el.find('.remove-mentioned-user').on('click', this.removeMentionedUser.bind(this));
   }
 
   addMentionedUser() {
