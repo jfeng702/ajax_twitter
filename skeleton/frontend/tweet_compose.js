@@ -7,16 +7,24 @@ class TweetCompose {
     this.$input = this.$el.find('textarea[name=tweet\\[content\\]]');
     this.$input.on('input', this.handleInput.bind(this));
 
-    this.$el.on('submit', this.submit.bind(this));
     this.$mentionedUsersDiv = this.$el.find('.mentioned-users');
-    this.$el.find('.add-mentioned-user').on('click', this.addMentionedUser.bind(this));
+    this.$el.find('.add-mentioned-user').on(
+      'click', this.addMentionedUser.bind(this));
+    this.$mentionedUsersDiv.on(
+      'click', '.remove-mentioned-user', this.removeMentionedUser.bind(this));
 
-    this.$el.find('.remove-mentioned-user').on('click', this.removeMentionedUser.bind(this));
+    this.$el.on('submit', this.submit.bind(this));
+
   }
 
-  addMentionedUser() {
+  addMentionedUser(event) {
     event.preventDefault();
     this.$mentionedUsersDiv.append(this.newUserSelect());
+  }
+
+  removeMentionedUser(e) {
+    e.preventDefault();
+    $(e.currentTarget).parent().remove();
   }
 
   handleInput(e) {
@@ -35,6 +43,7 @@ class TweetCompose {
 
   clearInput() {
     this.$input.val('');
+    this.$mentionedUsersDiv.find('ul').empty();
     this.$el.find(':input').prop('disabled', false);
     this.$el.find('.chars-left').empty();
   }
@@ -43,6 +52,7 @@ class TweetCompose {
     e.preventDefault();
     let val = this.$el.serializeJSON();
     this.$el.find(':input').prop('disabled', true);
+    console.log(val);
     APIUtil.createTweet(val)
       .then((data) => this.handleSuccess(data));
   }
