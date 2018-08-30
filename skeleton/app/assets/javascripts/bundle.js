@@ -217,6 +217,7 @@ class TweetCompose {
     this.$input.on('input', this.handleInput.bind(this));
 
     this.$el.on('submit', this.submit.bind(this));
+    console.log(this.$form);
   }
 
   handleInput(e) {
@@ -245,6 +246,13 @@ class TweetCompose {
     this.$el.find(':input').prop('disabled', true);
     APIUtil.createTweet(val)
       .then((data) => this.handleSuccess(data));
+  }
+
+  newUserSelect() {
+    const $select = $('<select></select');
+
+
+    this.$form.append($select);
   }
 }
 

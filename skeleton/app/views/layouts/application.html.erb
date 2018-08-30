@@ -33,5 +33,8 @@
     </header>
 
     <%= yield %>
+    <script>
+      window.users = <%= render('users/users.json.jbuilder', users: User.all).html_safe %>;
+    </script>
   </body>
 </html>
